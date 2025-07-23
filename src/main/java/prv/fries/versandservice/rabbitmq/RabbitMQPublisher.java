@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import prv.fries.versandservice.generated.client.payment.BestellungDto;
+import prv.fries.versandservice.generated.BestellungDto;
 
 @Service
 @RequiredArgsConstructor

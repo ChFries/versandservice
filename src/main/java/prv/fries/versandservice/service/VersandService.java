@@ -4,9 +4,9 @@ package prv.fries.versandservice.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import prv.fries.versandservice.generated.VersandauftragDto;
-import prv.fries.versandservice.generated.VersandauftragRequest;
-import prv.fries.versandservice.mapper.VersandauftragMapper;
+import prv.fries.versandservice.entity.Versandauftrag;
+import prv.fries.versandservice.generated.BestellungDto;
+import prv.fries.versandservice.generated.StatusDto;
 import prv.fries.versandservice.model.Person;
 import prv.fries.versandservice.model.VersandStatus;
 import prv.fries.versandservice.repository.VersandRepository;
@@ -18,27 +18,23 @@ public class VersandService {
 
     private final VersandRepository versandRepository;
     private final StammdatenService stammdatenService;
-    private final VersandauftragMapper versandauftragMapper;
-
-    public VersandauftragDto createVersandauftrag(VersandauftragRequest versandauftragRequest) {
 
 
-        prv.fries.versandservice.entity.Versandauftrag auftrag = new prv.fries.versandservice.entity.Versandauftrag();
-        auftrag.setKundenId(versandauftragRequest.getKundenId());
-        auftrag.setBestellungId(versandauftragRequest.getBestellungId());
+    public BestellungDto createVerstandauftrag(BestellungDto bestellungDto) {
+        Versandauftrag auftrag = new Versandauftrag();
+        auftrag.setKundenId(bestellungDto.getKundeId());
+        auftrag.setBestellungId(bestellungDto.getId());
         auftrag.setVersandStatus(VersandStatus.ERFASST);
-
         auftrag = versandRepository.save(auftrag);
 
-        Person person = stammdatenService.getPersonZuKunde(versandauftragRequest.getKundenId());
-        log.info("Person {} found for KundenId {}", person.toString(), versandauftragRequest.getKundenId());
-
+        Person person = stammdatenService.getPersonZuKunde(bestellungDto.getKundeId());
+        log.info("Person {} gefunden fuerr KundenId {}", person.toString(), bestellungDto.getKundeId());
         auftrag.setSendungsnummer("TRX-" + person.hashCode());
         auftrag.setVersandStatus(VersandStatus.VERSENDET);
+        versandRepository.save(auftrag);
 
-        auftrag = versandRepository.save(auftrag);
-
-        return versandauftragMapper.toDto(auftrag);
+        bestellungDto.setStatus(StatusDto.VERSENDET);
+        return bestellungDto;
     }
 
 }

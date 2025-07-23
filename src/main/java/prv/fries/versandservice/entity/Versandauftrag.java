@@ -29,6 +29,4 @@ public class Versandauftrag {
     @Column
     private String sendungsnummer;
 
-
-
 }
