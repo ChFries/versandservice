@@ -17,6 +17,7 @@ public class VersandServiceRabbit {
 
     @RabbitListener(queues = RabbitMQListenerConfiguration.QUEUE_ZAHLUNG_ABGESCHLOSSEN)
     public void handlePruefungAbgeshchlossen(BestellungDto bestellungDto) {
+        log.info("[RABBITMQ] Erstelle Versandauftag fuer Bestellung {}", bestellungDto.getId());
         var versendeteBestellugn = versandService.createVerstandauftrag(bestellungDto);
         rabbitMQPublisher.publishVersandAbgeschlossen(versendeteBestellugn);
     }

@@ -28,7 +28,6 @@ public class VersandService {
         auftrag = versandRepository.save(auftrag);
 
         Person person = stammdatenService.getPersonZuKunde(bestellungDto.getKundeId());
-        log.info("Person {} gefunden fuerr KundenId {}", person.toString(), bestellungDto.getKundeId());
         auftrag.setSendungsnummer("TRX-" + person.hashCode());
         auftrag.setVersandStatus(VersandStatus.VERSENDET);
         versandRepository.save(auftrag);
