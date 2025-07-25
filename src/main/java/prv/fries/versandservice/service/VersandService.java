@@ -21,6 +21,7 @@ public class VersandService {
 
 
     public BestellungDto createVerstandauftrag(BestellungDto bestellungDto) {
+        simulateCpuLoad();
         Versandauftrag auftrag = new Versandauftrag();
         auftrag.setKundenId(bestellungDto.getKundeId());
         auftrag.setBestellungId(bestellungDto.getId());
@@ -36,4 +37,9 @@ public class VersandService {
         return bestellungDto;
     }
 
+    private void simulateCpuLoad() {
+        for (int i = 0; i < 250000; i++) {
+            Math.sqrt(Math.random());
+        }
+    }
 }
