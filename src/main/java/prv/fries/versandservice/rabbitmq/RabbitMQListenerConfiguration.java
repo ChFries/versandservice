@@ -8,10 +8,12 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 @EnableRabbit
 @Slf4j
+@Profile("RABBITMQ")
 public class RabbitMQListenerConfiguration {
 
     public static final String QUEUE_ZAHLUNG_ABGESCHLOSSEN = "versand.zahlung.abgeschlossen.queue";
